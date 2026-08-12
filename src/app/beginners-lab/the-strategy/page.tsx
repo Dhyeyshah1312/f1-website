@@ -1,0 +1,23 @@
+import { MarkVisited } from "@/components/f1/lab/mark-visited";
+import { TheStrategySimulator } from "@/components/f1/lab/the-strategy-simulator";
+
+export default function TheStrategyPage() {
+  return (
+    <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-8 px-4 py-10 md:px-6 md:py-14">
+      <MarkVisited id="the-strategy" />
+      <header className="flex flex-col gap-1 border-b border-asphalt pb-6">
+        <span className="font-mono text-xs uppercase tracking-wide text-brushed-steel">
+          05 — The Strategy
+        </span>
+        <h1 className="font-display text-5xl font-black tracking-tight text-titanium md:text-7xl">
+          Tyres &amp; Pit Stops
+        </h1>
+        <p className="max-w-md font-mono text-sm text-brushed-steel">
+          Fast tyres fade quickly. Durable tyres are slower. Try a strategy.
+        </p>
+      </header>
+
+      <TheStrategySimulator />
+    </div>
+  );
+}

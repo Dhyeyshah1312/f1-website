@@ -1,26 +1,130 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* shadcn structural slots, mapped to the Kinetic Precision palette */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-display);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* DESIGN.md §2 — named palette, used directly (bg-carbon, text-titanium, etc.) */
+  --color-carbon: var(--carbon);
+  --color-graphite: var(--graphite);
+  --color-asphalt: var(--asphalt);
+  --color-brushed-steel: var(--brushed-steel);
+  --color-titanium: var(--titanium);
+  --color-circuit-red: var(--circuit-red);
+  --color-circuit-red-highlight: var(--circuit-red-highlight);
+
+  /* DESIGN.md §4 — machined radii, fixed values, never derived past 8px */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 8px;
+  --radius-3xl: 8px;
+  --radius-4xl: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* DESIGN.md §2 */
+  --carbon: #0b0c0d;
+  --graphite: #17191b;
+  --asphalt: #2a2d30;
+  --brushed-steel: #8a8f94;
+  --titanium: #f4f5f6;
+  --circuit-red: #d6303c;
+  --circuit-red-highlight: #e35864;
+
+  /* shadcn structural slots, mapped onto the palette above — the site is dark-only,
+     there is no light theme per DESIGN.md, so :root already carries the dark values */
+  --background: var(--carbon);
+  --foreground: var(--titanium);
+  --card: var(--graphite);
+  --card-foreground: var(--titanium);
+  --popover: var(--graphite);
+  --popover-foreground: var(--titanium);
+  --primary: var(--circuit-red);
+  --primary-foreground: var(--titanium);
+  --secondary: var(--asphalt);
+  --secondary-foreground: var(--titanium);
+  --muted: var(--graphite);
+  --muted-foreground: var(--brushed-steel);
+  --accent: var(--asphalt);
+  --accent-foreground: var(--titanium);
+  --destructive: var(--circuit-red);
+  --border: var(--asphalt);
+  --input: var(--asphalt);
+  --ring: var(--circuit-red);
+  --chart-1: var(--circuit-red);
+  --chart-2: var(--brushed-steel);
+  --chart-3: var(--asphalt);
+  --chart-4: var(--graphite);
+  --chart-5: var(--titanium);
+  --radius: 4px;
+  --sidebar: var(--graphite);
+  --sidebar-foreground: var(--titanium);
+  --sidebar-primary: var(--circuit-red);
+  --sidebar-primary-foreground: var(--titanium);
+  --sidebar-accent: var(--asphalt);
+  --sidebar-accent-foreground: var(--titanium);
+  --sidebar-border: var(--asphalt);
+  --sidebar-ring: var(--circuit-red);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  /* Big Shoulders at font-black (900) + tight tracking shows visible glyph
+     fringing/ghosting on some words at 1x device pixel ratio — Chromium's
+     default text layout path, not a component bug (reproduced identically
+     across fresh reloads, with no distinguishing transform/filter/shadow on
+     the affected elements). optimizeLegibility forces the better-kerned,
+     more precise text layout path and resolves it. */
+  .font-display {
+    text-rendering: optimizeLegibility;
+  }
 }
