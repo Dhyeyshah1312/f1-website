@@ -34,7 +34,7 @@ export default async function SeasonPage() {
         index="02 — SEASON TELEMETRY"
         title="2026 Season"
         description="Standings, calendar, and real-time race telemetry."
-        imageSrc="/images/heroes/season-hero.png"
+        imageSrc="/images/heroes/season-hero-v2.png"
         stats={[
           {
             label: "Current Round",

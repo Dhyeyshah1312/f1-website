@@ -9,7 +9,7 @@ export default function BeginnersLabPage() {
         index="08 — LEARN F1 IN FIVE MINUTES"
         title="Beginner's Lab"
         description="Five short, interactive modules. Master Formula 1 fundamentals."
-        imageSrc="/images/heroes/lab-hero.png"
+        imageSrc="/images/heroes/lab-hero-v2.png"
         stats={[
           { label: "Interactive Modules", value: `${LAB_MODULES.length} MODULES` },
           { label: "Completion Time", value: "5 MINUTES" },

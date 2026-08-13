@@ -32,7 +32,7 @@ export default async function Home() {
           href="/season"
           background={
             <img
-              src="/images/heroes/season-hero.png"
+              src="/images/heroes/season-hero-v2.png"
               alt="2026 Season"
               className="h-full w-full object-cover object-center opacity-75"
             />
@@ -130,7 +130,7 @@ export default async function Home() {
           href="/beginners-lab"
           background={
             <img
-              src="/images/heroes/lab-hero.png"
+              src="/images/heroes/lab-hero-v2.png"
               alt="Beginner's Lab"
               className="h-full w-full object-cover object-center opacity-75"
             />

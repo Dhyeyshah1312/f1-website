@@ -50,7 +50,7 @@ export function HeroIntro() {
       {/* Visual Anchor: Night Race Photography Backdrop */}
       <div className="absolute inset-0 z-0 opacity-45 grayscale transition-opacity duration-700 hover:opacity-60 hover:grayscale-0">
         <Image
-          src="/images/heroes/season-hero.png"
+          src="/images/heroes/season-hero-v2.png"
           alt="Formula 1 Night Grid Telemetry"
           fill
           priority
