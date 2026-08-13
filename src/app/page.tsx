@@ -7,13 +7,6 @@ import { DriverPortrait } from "@/components/f1/driver-portrait";
 import { TeamImage } from "@/components/f1/team-image";
 import { CircuitImage } from "@/components/f1/circuit-image";
 
-/**
- * Discover (Page Specs §1) — the whole page is [C] original interface copy
- * except the live status strip, which is real Jolpica-F1 data already
- * fetched elsewhere in the tree (Nav). Calling the same lib/data functions
- * again here is intentional, not a re-fetch: Next's fetch cache dedupes
- * identical calls within a request, so it never hits the network twice.
- */
 export default async function Home() {
   const [nextRace, driverStandings, constructorStandings] = await Promise.all([
     getNextRace(),
@@ -21,8 +14,8 @@ export default async function Home() {
     getConstructorStandings(),
   ]);
 
-  const leader = !isPending(driverStandings) ? driverStandings[0] : undefined;
-  const leadingTeam = !isPending(constructorStandings) ? constructorStandings[0] : undefined;
+  const leader = !isPending(driverStandings) && driverStandings.length > 0 ? driverStandings[0] : undefined;
+  const leadingTeam = !isPending(constructorStandings) && constructorStandings.length > 0 ? constructorStandings[0] : undefined;
   const nextCircuit = !isPending(nextRace) ? nextRace.circuit : undefined;
 
   return (
@@ -32,88 +25,117 @@ export default async function Home() {
       <LiveStatusStrip nextRace={nextRace} driverStandings={driverStandings} />
 
       <div id="explore" className="flex flex-col">
+        {/* 02 — Season */}
         <SectionTeaserPanel
           index="02"
           title="Season"
           hook="Standings, calendar, and the next race — live."
           href="/season"
+          background={
+            <img
+              src="/images/heroes/season-hero.png"
+              alt="2026 Season"
+              className="h-full w-full object-cover object-center opacity-75"
+            />
+          }
         />
 
+        {/* 03 — Drivers */}
         <SectionTeaserPanel
           index="03"
           title="Drivers"
           hook="22 drivers. Every stat, every story."
           href="/drivers"
           background={
-            leader && (
-              <DriverPortrait
-                slug={leader.driverId}
-                hasPortrait={hasDriverPortrait(leader.driverId)}
-                number={leader.permanentNumber}
-                alt={`${leader.givenName} ${leader.familyName}`}
-                className="h-full w-full"
-                sizes="100vw"
-              />
-            )
+            <DriverPortrait
+              slug={leader?.driverId ?? "hamilton"}
+              hasPortrait={leader ? hasDriverPortrait(leader.driverId) : true}
+              number={leader?.permanentNumber ?? "44"}
+              alt={leader ? `${leader.givenName} ${leader.familyName}` : "Lewis Hamilton"}
+              className="h-full w-full"
+              sizes="100vw"
+            />
           }
         />
 
+        {/* 04 — Teams */}
         <SectionTeaserPanel
           index="04"
           title="Teams"
           hook="11 teams. The paddock, mapped."
           href="/teams"
           background={
-            leadingTeam && (
-              <TeamImage
-                constructorId={leadingTeam.constructorId}
-                variant="livery"
-                hasImage={hasTeamLivery(leadingTeam.constructorId)}
-                teamName={leadingTeam.constructorName}
-                className="h-full w-full"
-                sizes="100vw"
-              />
-            )
+            <TeamImage
+              constructorId={leadingTeam?.constructorId ?? "ferrari"}
+              variant="livery"
+              hasImage={leadingTeam ? hasTeamLivery(leadingTeam.constructorId) : true}
+              teamName={leadingTeam?.constructorName ?? "Ferrari"}
+              className="h-full w-full"
+              sizes="100vw"
+            />
           }
         />
 
+        {/* 05 — Circuits */}
         <SectionTeaserPanel
           index="05"
           title="Circuits"
           hook="24 rounds. The world, drawn to scale."
           href="/circuits"
           background={
-            nextCircuit && (
-              <CircuitImage
-                circuitId={nextCircuit.id}
-                hasImage={hasCircuitImage(nextCircuit.id)}
-                circuitName={nextCircuit.name}
-                className="h-full w-full"
-                sizes="100vw"
-              />
-            )
+            <CircuitImage
+              circuitId={nextCircuit?.id ?? "albert_park"}
+              hasImage={nextCircuit ? hasCircuitImage(nextCircuit.id) : true}
+              circuitName={nextCircuit?.name ?? "Albert Park Circuit"}
+              className="h-full w-full"
+              sizes="100vw"
+            />
           }
         />
 
+        {/* 06 — History */}
         <SectionTeaserPanel
           index="06"
           title="History"
           hook="1950 to now. Every champion."
           href="/history"
+          background={
+            <img
+              src="/images/heroes/history-hero.png"
+              alt="F1 History"
+              className="h-full w-full object-cover object-center opacity-75"
+            />
+          }
         />
 
+        {/* 07 — Technology */}
         <SectionTeaserPanel
           index="07"
           title="Technology"
           hook="The 2026 car, taken apart."
           href="/technology"
+          background={
+            <img
+              src="/images/heroes/technology-hero.png"
+              alt="F1 Technology"
+              className="h-full w-full object-cover object-center opacity-75"
+            />
+          }
         />
 
+        {/* 08 — Beginner's Lab */}
         <SectionTeaserPanel
           index="08"
           title="Beginner's Lab"
           hook="Learn F1 in five minutes."
           href="/beginners-lab"
+          background={
+            <img
+              src="/images/heroes/lab-hero.png"
+              alt="Beginner's Lab"
+              className="h-full w-full object-cover object-center opacity-75"
+            />
+          }
         />
       </div>
     </div>
