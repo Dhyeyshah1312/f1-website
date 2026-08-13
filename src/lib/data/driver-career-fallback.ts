@@ -224,18 +224,349 @@ export const CuratedDriverDataMap: Record<string, CuratedDriverData> = {
       ],
     },
   },
+  perez: {
+    bio: {
+      driverId: "perez",
+      permanentNumber: "11",
+      code: "PER",
+      givenName: "Sergio",
+      familyName: "Pérez",
+      dateOfBirth: "1990-01-26",
+      nationality: "Mexican",
+    },
+    careerStats: {
+      wins: 6,
+      podiums: 39,
+      poles: 3,
+      championships: 0,
+      points: 1637,
+      timeline: [
+        { season: "2011", position: 16, points: 14, wins: 0, constructorIds: ["sauber"], constructorNames: ["Sauber"] },
+        { season: "2020", position: 4, points: 125, wins: 1, constructorIds: ["racing_point"], constructorNames: ["Racing Point"] },
+        { season: "2023", position: 2, points: 285, wins: 2, constructorIds: ["red_bull"], constructorNames: ["Red Bull"] },
+      ],
+    },
+  },
+  gasly: {
+    bio: {
+      driverId: "gasly",
+      permanentNumber: "10",
+      code: "GAS",
+      givenName: "Pierre",
+      familyName: "Gasly",
+      dateOfBirth: "1996-02-07",
+      nationality: "French",
+    },
+    careerStats: {
+      wins: 1,
+      podiums: 5,
+      poles: 0,
+      championships: 0,
+      points: 434,
+      timeline: [
+        { season: "2017", position: 21, points: 0, wins: 0, constructorIds: ["toro_rosso"], constructorNames: ["Toro Rosso"] },
+        { season: "2020", position: 10, points: 75, wins: 1, constructorIds: ["alphatauri"], constructorNames: ["AlphaTauri"] },
+      ],
+    },
+  },
+  ocon: {
+    bio: {
+      driverId: "ocon",
+      permanentNumber: "31",
+      code: "OCO",
+      givenName: "Esteban",
+      familyName: "Ocon",
+      dateOfBirth: "1996-09-17",
+      nationality: "French",
+    },
+    careerStats: {
+      wins: 1,
+      podiums: 4,
+      poles: 0,
+      championships: 0,
+      points: 445,
+      timeline: [
+        { season: "2016", position: 23, points: 0, wins: 0, constructorIds: ["manor"], constructorNames: ["Manor"] },
+        { season: "2021", position: 11, points: 74, wins: 1, constructorIds: ["alpine"], constructorNames: ["Alpine"] },
+      ],
+    },
+  },
+  albon: {
+    bio: {
+      driverId: "albon",
+      permanentNumber: "23",
+      code: "ALB",
+      givenName: "Alexander",
+      familyName: "Albon",
+      dateOfBirth: "1996-03-23",
+      nationality: "Thai",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 2,
+      poles: 0,
+      championships: 0,
+      points: 240,
+      timeline: [
+        { season: "2019", position: 8, points: 92, wins: 0, constructorIds: ["tor_rosso", "red_bull"], constructorNames: ["Toro Rosso", "Red Bull"] },
+        { season: "2020", position: 7, points: 105, wins: 0, constructorIds: ["red_bull"], constructorNames: ["Red Bull"] },
+      ],
+    },
+  },
+  tsunoda: {
+    bio: {
+      driverId: "tsunoda",
+      permanentNumber: "22",
+      code: "TSU",
+      givenName: "Yuki",
+      familyName: "Tsunoda",
+      dateOfBirth: "2000-05-11",
+      nationality: "Japanese",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 91,
+      timeline: [
+        { season: "2021", position: 14, points: 32, wins: 0, constructorIds: ["alphatauri"], constructorNames: ["AlphaTauri"] },
+        { season: "2024", position: 11, points: 30, wins: 0, constructorIds: ["rb"], constructorNames: ["RB"] },
+      ],
+    },
+  },
+  stroll: {
+    bio: {
+      driverId: "stroll",
+      permanentNumber: "18",
+      code: "STR",
+      givenName: "Lance",
+      familyName: "Stroll",
+      dateOfBirth: "1998-10-29",
+      nationality: "Canadian",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 3,
+      poles: 1,
+      championships: 0,
+      points: 292,
+      timeline: [
+        { season: "2017", position: 12, points: 40, wins: 0, constructorIds: ["williams"], constructorNames: ["Williams"] },
+        { season: "2020", position: 11, points: 75, wins: 0, constructorIds: ["racing_point"], constructorNames: ["Racing Point"] },
+      ],
+    },
+  },
+  hulkenberg: {
+    bio: {
+      driverId: "hulkenberg",
+      permanentNumber: "27",
+      code: "HUL",
+      givenName: "Nico",
+      familyName: "Hülkenberg",
+      dateOfBirth: "1987-08-19",
+      nationality: "German",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 1,
+      championships: 0,
+      points: 561,
+      timeline: [
+        { season: "2010", position: 14, points: 22, wins: 0, constructorIds: ["williams"], constructorNames: ["Williams"] },
+        { season: "2018", position: 7, points: 69, wins: 0, constructorIds: ["renault"], constructorNames: ["Renault"] },
+      ],
+    },
+  },
+  bottas: {
+    bio: {
+      driverId: "bottas",
+      permanentNumber: "77",
+      code: "BOT",
+      givenName: "Valtteri",
+      familyName: "Bottas",
+      dateOfBirth: "1989-08-28",
+      nationality: "Finnish",
+    },
+    careerStats: {
+      wins: 10,
+      podiums: 67,
+      poles: 20,
+      championships: 0,
+      points: 1797,
+      timeline: [
+        { season: "2013", position: 17, points: 4, wins: 0, constructorIds: ["williams"], constructorNames: ["Williams"] },
+        { season: "2019", position: 2, points: 326, wins: 4, constructorIds: ["mercedes"], constructorNames: ["Mercedes"] },
+        { season: "2020", position: 2, points: 223, wins: 2, constructorIds: ["mercedes"], constructorNames: ["Mercedes"] },
+      ],
+    },
+  },
+  bearman: {
+    bio: {
+      driverId: "bearman",
+      permanentNumber: "87",
+      code: "BEA",
+      givenName: "Oliver",
+      familyName: "Bearman",
+      dateOfBirth: "2005-05-08",
+      nationality: "British",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 7,
+      timeline: [
+        { season: "2024", position: 18, points: 7, wins: 0, constructorIds: ["ferrari", "haas"], constructorNames: ["Ferrari", "Haas"] },
+      ],
+    },
+  },
+  lawson: {
+    bio: {
+      driverId: "lawson",
+      permanentNumber: "30",
+      code: "LAW",
+      givenName: "Liam",
+      familyName: "Lawson",
+      dateOfBirth: "2002-02-11",
+      nationality: "New Zealander",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 6,
+      timeline: [
+        { season: "2023", position: 20, points: 2, wins: 0, constructorIds: ["alphatauri"], constructorNames: ["AlphaTauri"] },
+        { season: "2024", position: 20, points: 4, wins: 0, constructorIds: ["rb"], constructorNames: ["RB"] },
+      ],
+    },
+  },
+  hadjar: {
+    bio: {
+      driverId: "hadjar",
+      permanentNumber: "6",
+      code: "HAD",
+      givenName: "Isack",
+      familyName: "Hadjar",
+      dateOfBirth: "2004-09-28",
+      nationality: "French",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 0,
+      timeline: [],
+    },
+  },
+  bortoleto: {
+    bio: {
+      driverId: "bortoleto",
+      permanentNumber: "5",
+      code: "BOR",
+      givenName: "Gabriel",
+      familyName: "Bortoleto",
+      dateOfBirth: "2004-10-14",
+      nationality: "Brazilian",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 0,
+      timeline: [],
+    },
+  },
+  colapinto: {
+    bio: {
+      driverId: "colapinto",
+      permanentNumber: "43",
+      code: "COL",
+      givenName: "Franco",
+      familyName: "Colapinto",
+      dateOfBirth: "2003-05-27",
+      nationality: "Argentine",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 5,
+      timeline: [
+        { season: "2024", position: 19, points: 5, wins: 0, constructorIds: ["williams"], constructorNames: ["Williams"] },
+      ],
+    },
+  },
+  arvid_lindblad: {
+    bio: {
+      driverId: "arvid_lindblad",
+      permanentNumber: "99",
+      code: "LIN",
+      givenName: "Arvid",
+      familyName: "Lindblad",
+      dateOfBirth: "2007-08-08",
+      nationality: "British",
+    },
+    careerStats: {
+      wins: 0,
+      podiums: 0,
+      poles: 0,
+      championships: 0,
+      points: 0,
+      timeline: [],
+    },
+  },
 };
 
-export function getCuratedDriverBio(driverId: string): DriverBio | null {
-  const key = driverId.toLowerCase();
-  if (CuratedDriverDataMap[key]) return CuratedDriverDataMap[key].bio;
-  if (CuratedDriverDataMap[key.replace("max_", "")]) return CuratedDriverDataMap[key.replace("max_", "")].bio;
-  return null;
+function formatName(driverId: string): { givenName: string; familyName: string; code: string } {
+  const parts = driverId.split("_");
+  if (parts.length === 1) {
+    const name = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+    return { givenName: name, familyName: name, code: name.slice(0, 3).toUpperCase() };
+  }
+  const givenName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+  const familyName = parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(" ");
+  const code = (givenName[0] + familyName.slice(0, 2)).toUpperCase();
+  return { givenName, familyName, code };
 }
 
-export function getCuratedDriverCareerStats(driverId: string): DriverCareerStats | null {
+export function getCuratedDriverBio(driverId: string): DriverBio {
+  const key = driverId.toLowerCase();
+  if (CuratedDriverDataMap[key]) return CuratedDriverDataMap[key].bio;
+  const aliasKey = key.replace("max_", "");
+  if (CuratedDriverDataMap[aliasKey]) return CuratedDriverDataMap[aliasKey].bio;
+
+  const { givenName, familyName, code } = formatName(driverId);
+  return {
+    driverId,
+    permanentNumber: "0",
+    code,
+    givenName,
+    familyName,
+    dateOfBirth: "2000-01-01",
+    nationality: "International",
+  };
+}
+
+export function getCuratedDriverCareerStats(driverId: string): DriverCareerStats {
   const key = driverId.toLowerCase();
   if (CuratedDriverDataMap[key]) return CuratedDriverDataMap[key].careerStats;
-  if (CuratedDriverDataMap[key.replace("max_", "")]) return CuratedDriverDataMap[key.replace("max_", "")].careerStats;
-  return null;
+  const aliasKey = key.replace("max_", "");
+  if (CuratedDriverDataMap[aliasKey]) return CuratedDriverDataMap[aliasKey].careerStats;
+
+  return {
+    wins: 0,
+    podiums: 0,
+    poles: 0,
+    championships: 0,
+    points: 0,
+    timeline: [],
+  };
 }

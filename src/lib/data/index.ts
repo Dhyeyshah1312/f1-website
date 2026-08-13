@@ -119,15 +119,12 @@ export async function getRoundDetail(round: number): Promise<RoundDetail> {
 /** A driver's bio (name, DOB, nationality, number) — independent of season. */
 export async function getDriverBio(driverId: string): Promise<Maybe<DriverBio>> {
   const bio = await jolpica.fetchDriverBio(driverId);
-  const fallback = getCuratedDriverBio(driverId);
-  return bio ?? fallback ?? pending("JOLPICA-F1");
+  return bio ?? getCuratedDriverBio(driverId);
 }
 
 /** Career-wide aggregates and season-by-season timeline for a driver. */
 export async function getDriverCareerStats(driverId: string): Promise<Maybe<DriverCareerStats>> {
-  const stats = await jolpica.fetchDriverCareerStats(driverId);
-  const fallback = getCuratedDriverCareerStats(driverId);
-  return stats ?? fallback ?? pending("JOLPICA-F1");
+  return getCuratedDriverCareerStats(driverId);
 }
 
 /** Every round's results for both of a team's cars this season — the race-by-race strip. */
