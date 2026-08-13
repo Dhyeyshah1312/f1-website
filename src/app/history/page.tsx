@@ -30,26 +30,26 @@ export default async function HistoryPage() {
 
         <RevealSection className="flex flex-col gap-4">
           <h2 className="font-display text-2xl font-black tracking-tight text-titanium">Records</h2>
-          <div className="flex flex-col gap-2 font-mono text-sm">
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Most wins —</span>
-              <PendingToken source="F1DB" />
+          <div className="flex flex-col gap-3 font-mono text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-44 font-bold">Most wins —</span>
+              <span className="text-titanium font-bold">Lewis Hamilton <span className="text-circuit-red-highlight">(105 Grand Prix victories)</span></span>
             </div>
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Most poles —</span>
-              <PendingToken source="F1DB" />
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-44 font-bold">Most poles —</span>
+              <span className="text-titanium font-bold">Lewis Hamilton <span className="text-circuit-red-highlight">(104 pole positions)</span></span>
             </div>
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Youngest champion —</span>
-              <PendingToken source="F1DB" />
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-44 font-bold">Youngest champion —</span>
+              <span className="text-titanium font-bold">Sebastian Vettel <span className="text-brushed-steel">(23 years, 134 days — 2010 Red Bull Racing)</span></span>
             </div>
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Oldest champion —</span>
-              <PendingToken source="F1DB" />
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-44 font-bold">Oldest champion —</span>
+              <span className="text-titanium font-bold">Juan Manuel Fangio <span className="text-brushed-steel">(46 years, 41 days — 1957 Maserati)</span></span>
             </div>
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Most championships —</span>
-              <PendingToken source="F1DB" />
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-44 font-bold">Most championships —</span>
+              <span className="text-titanium font-bold">Michael Schumacher & Lewis Hamilton <span className="text-circuit-red-highlight">(7 World Championships each)</span></span>
             </div>
           </div>
         </RevealSection>

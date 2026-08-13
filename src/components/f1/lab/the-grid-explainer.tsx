@@ -5,6 +5,7 @@ import { isPending } from "@/lib/data/types";
 import type { ConstructorStanding, DriverStanding, Maybe } from "@/lib/data/types";
 import { PendingToken } from "@/components/f1/pending-token";
 import { getTeamUiAccent } from "@/lib/data/team-colors";
+import { TeamImage } from "@/components/f1/team-image";
 import { cn } from "@/lib/utils";
 
 interface TheGridExplainerProps {
@@ -63,12 +64,21 @@ export function TheGridExplainer({ drivers, constructors }: TheGridExplainerProp
               key={team.constructorId}
               type="button"
               onClick={() => toggle(team.constructorId)}
-              className="flex flex-col gap-2 border-t-2 bg-graphite p-4 text-left transition-transform"
+              className="flex flex-col gap-2 border-t-2 bg-graphite p-4 text-left transition-transform hover:bg-graphite/80"
               style={{ borderTopColor: accent }}
             >
-              <span className="font-display text-lg font-black tracking-tight text-titanium">
-                {team.constructorName}
-              </span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-display text-lg font-black tracking-tight text-titanium">
+                  {team.constructorName}
+                </span>
+                <TeamImage
+                  constructorId={team.constructorId}
+                  variant="logo"
+                  hasImage
+                  teamName={team.constructorName}
+                  className="h-8 w-8 object-contain shrink-0"
+                />
+              </div>
               <span
                 className={cn(
                   "font-mono text-xs text-brushed-steel transition-opacity",

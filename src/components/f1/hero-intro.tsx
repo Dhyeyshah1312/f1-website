@@ -4,14 +4,12 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { TelemetryLine } from "@/components/f1/telemetry-line";
-import { TrackOutlineReveal } from "@/components/f1/track-outline-reveal";
-import { F1AnimatedLogo } from "@/components/f1/f1-animated-logo";
+import { F1LogoMark } from "@/components/f1/f1-logo-mark";
 
 const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;
 
-const OUTLINE_DELAY = 0.4;
-const TEXT_DELAY = 1.0;
-const CTA_DELAY = 1.6;
+const TEXT_DELAY = 0.5;
+const CTA_DELAY = 1.0;
 
 const TEASER_STACK_ID = "explore";
 
@@ -47,10 +45,10 @@ export function HeroIntro() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden bg-carbon px-4 pb-16 md:px-12 md:pb-24"
+      className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden bg-carbon px-4 pb-12 pt-20 md:px-12 md:pb-24"
     >
       {/* Visual Anchor: Night Race Photography Backdrop */}
-      <div className="absolute inset-0 z-0 opacity-40 grayscale transition-opacity duration-700 hover:opacity-55 hover:grayscale-0">
+      <div className="absolute inset-0 z-0 opacity-45 grayscale transition-opacity duration-700 hover:opacity-60 hover:grayscale-0">
         <Image
           src="/images/heroes/season-hero.png"
           alt="Formula 1 Night Grid Telemetry"
@@ -89,26 +87,16 @@ export function HeroIntro() {
       {/* Telemetry Line Sweep */}
       <TelemetryLine once duration={1.0} className="absolute left-0 right-0 top-32 z-10 max-w-none opacity-90" />
 
-      {/* Track Outline Backdrop */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ delay: OUTLINE_DELAY, duration: 1.2, ease: EASE_OUT_QUINT }}
-        className="pointer-events-none absolute right-0 top-12 z-0 h-[65vh] w-[65vh] opacity-[0.2] md:h-[75vh] md:w-[75vh]"
-      >
-        <TrackOutlineReveal className="h-full w-full" />
-      </motion.div>
-
-      {/* Hero Content — F1 Negative Space Brand Logo + Tagline */}
+      {/* Hero Content — F1 Brand Logo + Tagline */}
       <motion.div
         style={{ x, y, rotate }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: TEXT_DELAY, duration: 0.8, ease: EASE_OUT_QUINT }}
-        className="relative z-10 flex flex-col gap-6"
+        className="relative z-10 flex flex-col gap-5 mt-auto"
       >
         <div className="flex items-center gap-6">
-          <F1AnimatedLogo className="h-32 w-64 md:h-48 md:w-96" />
+          <F1LogoMark className="h-24 w-52 sm:h-32 sm:w-72 md:h-40 md:w-96" />
           <div className="hidden flex-col gap-1 border-l border-circuit-red/50 pl-6 md:flex">
             <span className="font-display text-3xl font-black uppercase tracking-tight text-titanium">
               FORMULA 1
@@ -119,22 +107,22 @@ export function HeroIntro() {
           </div>
         </div>
 
-        <p className="max-w-xl font-mono text-sm uppercase tracking-widest text-brushed-steel md:text-base">
+        <p className="max-w-xl font-mono text-xs uppercase tracking-widest text-brushed-steel sm:text-sm md:text-base">
           Formula 1, explained — real live telemetry from the grid to the standings.
         </p>
       </motion.div>
 
-      {/* Magnetic Primary CTA */}
+      {/* Primary CTA — Strict DESIGN.md §4 compliance (machined top highlight, zero outer glow) */}
       <motion.button
         type="button"
         onClick={handleEnter}
         data-cursor-text="ENTER"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.04, backgroundColor: "var(--circuit-red-highlight)" }}
-        whileTap={{ scale: 0.96 }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
         transition={{ delay: CTA_DELAY, duration: 0.6, ease: EASE_OUT_QUINT }}
-        className="relative z-10 mt-10 w-fit border border-circuit-red-highlight bg-circuit-red px-8 py-3.5 font-mono text-sm font-bold uppercase tracking-widest text-titanium shadow-[0_0_25px_rgba(214,48,60,0.5)] transition-all duration-300 hover:shadow-[0_0_35px_rgba(227,88,100,0.8)]"
+        className="relative z-10 mt-6 sm:mt-8 w-fit rounded-sm border-t border-circuit-red-highlight bg-circuit-red px-7 py-3 font-mono text-xs font-bold uppercase tracking-widest text-titanium transition-colors duration-200 hover:bg-circuit-red-highlight"
       >
         Explore Telemetry ↓
       </motion.button>

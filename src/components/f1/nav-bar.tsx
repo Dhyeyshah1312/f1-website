@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { DataValue } from "@/components/f1/data-value";
 import { CountdownChip } from "@/components/f1/countdown-chip";
+import { F1LogoMark } from "@/components/f1/f1-logo-mark";
 import { NAV_SECTIONS } from "@/components/f1/nav-sections";
 import type { LiveSession, Maybe, RaceSummary } from "@/lib/data";
 
@@ -27,10 +28,10 @@ export function NavBar({ nextRace, liveSession }: NavBarProps) {
           href="/"
           data-cursor="magnetic"
           data-cursor-text="HOME"
-          className="group flex items-center gap-2 font-display text-2xl font-black tracking-tighter text-titanium transition-all hover:scale-105"
+          className="group flex items-center gap-2 transition-transform hover:scale-105"
           onClick={() => setOpen(false)}
         >
-          <span className="text-circuit-red transition-colors group-hover:text-circuit-red-highlight">F1</span>
+          <F1LogoMark className="h-8 w-20" />
           <span className="font-mono text-[10px] uppercase tracking-widest text-brushed-steel group-hover:text-titanium">
             TELEMETRY
           </span>

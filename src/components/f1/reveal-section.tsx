@@ -13,10 +13,11 @@ const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;
 export function RevealSection({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <motion.section
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ duration: 0.6, ease: EASE_OUT_QUINT }}
+      viewport={{ once: true, margin: "-5% 0px" }}
+      transition={{ duration: 0.5, ease: EASE_OUT_QUINT }}
+      style={{ transform: "translateZ(0)", willChange: "opacity, transform" }}
       className={className}
     >
       {children}

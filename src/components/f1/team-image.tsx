@@ -15,11 +15,8 @@ interface TeamImageProps {
 }
 
 /**
- * A team's livery or logo image, or — when no file exists yet — a clean
- * Graphite-panel placeholder showing the team name. Never a broken <img>
- * (DESIGN.md §8). Paths built from image-slugs (pure, no fs) rather than
- * lib/data/portraits (server-only), since this is used from client code
- * (PaddockGrid).
+ * A team's livery or logo image. Logos render borderless with transparent background
+ * so they fill the container prominently without square margins or stamp boxes.
  */
 export function TeamImage({
   constructorId,
@@ -30,6 +27,21 @@ export function TeamImage({
   priority,
   sizes = "(min-width: 768px) 33vw, 100vw",
 }: TeamImageProps) {
+  if (variant === "logo") {
+    return (
+      <div className={cn("relative shrink-0 overflow-hidden bg-transparent p-0", className)}>
+        <Image
+          src={`/images/teams/${teamImageSlug(constructorId)}-logo.jpg`}
+          alt={`${teamName} logo`}
+          fill
+          priority={priority}
+          sizes={sizes}
+          className="object-contain p-0"
+        />
+      </div>
+    );
+  }
+
   if (!hasImage) {
     return (
       <div className={cn("relative flex items-center justify-center overflow-hidden bg-graphite p-2", className)}>
@@ -48,7 +60,7 @@ export function TeamImage({
         fill
         priority={priority}
         sizes={sizes}
-        className={variant === "logo" ? "object-contain p-4" : "object-cover"}
+        className="object-cover"
       />
     </div>
   );

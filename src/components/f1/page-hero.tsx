@@ -26,17 +26,16 @@ export function PageHero({ index, title, description, imageSrc, background, stat
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.2]);
 
   return (
     <section
       ref={containerRef}
-      className="relative flex min-h-[52dvh] items-end overflow-hidden border-b border-asphalt/80 bg-carbon px-4 pb-8 pt-24 md:px-12 md:pb-12 md:pt-32"
+      className="relative flex min-h-[50dvh] items-end overflow-hidden border-b border-asphalt/80 bg-carbon px-4 pb-8 pt-24 md:px-12 md:pb-12 md:pt-32"
     >
       {/* Background Hero Image */}
       {imageSrc ? (
-        <motion.div style={{ y }} className="absolute inset-0 z-0 opacity-70 transition-opacity duration-700 hover:opacity-90">
+        <div className="absolute inset-0 z-0 opacity-80 transition-opacity duration-700 hover:opacity-95">
           <Image
             src={imageSrc}
             alt={title}
@@ -45,18 +44,17 @@ export function PageHero({ index, title, description, imageSrc, background, stat
             className="object-cover object-center"
             sizes="100vw"
           />
-        </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/20" />
+        </div>
       ) : background ? (
-        <motion.div style={{ y }} className="absolute inset-0 z-0 opacity-60">
+        <div className="absolute inset-0 z-0 opacity-70">
           {background}
-        </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/20" />
+        </div>
       ) : (
-        <motion.div
-          style={{ y }}
-          className="pointer-events-none absolute -right-12 -top-12 h-[65vh] w-[65vh] opacity-[0.14] md:h-[75vh] md:w-[75vh]"
-        >
+        <div className="pointer-events-none absolute -right-12 -top-12 h-[65vh] w-[65vh] opacity-[0.14] md:h-[75vh] md:w-[75vh]">
           <TrackOutlineReveal className="h-full w-full" />
-        </motion.div>
+        </div>
       )}
 
       {/* Ambient Grid Backdrop */}
@@ -65,11 +63,8 @@ export function PageHero({ index, title, description, imageSrc, background, stat
         className="pointer-events-none absolute inset-0 z-0 opacity-[0.06] bg-[linear-gradient(var(--asphalt)_1px,transparent_1px),linear-gradient(90deg,var(--asphalt)_1px,transparent_1px)] bg-[size:48px_48px]"
       />
 
-      {/* Soft Vignette & Gradient Mask overlay for high legibility */}
-      <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-t from-carbon via-carbon/50 to-transparent" />
-
       {/* Machined Red Accent Line on Top */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-circuit-red via-circuit-red-highlight to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-circuit-red via-circuit-red-highlight to-transparent z-10" />
 
       {/* Hero Content */}
       <motion.div style={{ opacity }} className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col gap-4">

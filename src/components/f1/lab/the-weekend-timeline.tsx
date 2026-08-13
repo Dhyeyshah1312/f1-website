@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { PendingToken } from "@/components/f1/pending-token";
 import { cn } from "@/lib/utils";
 
 interface Stage {
@@ -17,7 +16,17 @@ const STAGES: Stage[] = [
   { id: "race", day: "Sunday", label: "Race" },
 ];
 
-/** Page Specs §8 — click a stage for a one-line explainer (content not written yet). */
+const EXPLAINERS: Record<string, string> = {
+  practice:
+    "Free practice sessions where teams test setup, tyre compounds, and fuel loads before the weekend gets serious. Drivers aren't racing each other yet — they're gathering data. Lap times often don't mean much here, since teams run different fuel loads and hide their real pace.",
+  qualifying:
+    "A three-part knockout session (Q1, Q2, Q3) that sets Sunday's starting grid. Each part eliminates the slowest cars until the final ten fight for pole position in Q3. One flying lap can be the difference between the front row and the back of the grid.",
+  sprint:
+    "A shorter standalone race — about 100km, no mandatory pit stops — that awards points to the top eight finishers but doesn't affect the main Grand Prix result. It also sets the grid for a separate Sprint Qualifying session held instead of a Friday practice session on those weekends.",
+  race:
+    "The Grand Prix itself — the full-length race that decides the weekend, run over a fixed number of laps or two hours, whichever comes first. Points go to the top ten finishers, with one extra point for the fastest lap if that driver finishes in the top ten.",
+};
+
 export function TheWeekendTimeline() {
   const [selected, setSelected] = useState<string>(STAGES[0].id);
   const activeStage = STAGES.find((s) => s.id === selected);
@@ -52,12 +61,11 @@ export function TheWeekendTimeline() {
 
       {activeStage && (
         <div className="flex flex-col gap-2 border-t border-asphalt pt-4">
-          <span className="font-mono text-xs uppercase tracking-wide text-brushed-steel">
+          <span className="font-mono text-xs font-bold uppercase tracking-wide text-circuit-red-highlight">
             {activeStage.day} — {activeStage.label}
           </span>
-          <p className="flex items-center gap-2 font-mono text-sm">
-            <span className="text-brushed-steel">Explainer —</span>
-            <PendingToken source="EDITORIAL" />
+          <p className="font-mono text-sm leading-relaxed text-titanium max-w-3xl">
+            {EXPLAINERS[activeStage.id]}
           </p>
         </div>
       )}

@@ -17,7 +17,7 @@ interface PendingTokenProps {
 export function PendingToken({ source, className }: PendingTokenProps) {
   return (
     <span
-      className={cn("font-mono text-brushed-steel whitespace-nowrap", className)}
+      className={cn("font-mono text-brushed-steel text-xs sm:text-sm tracking-tight truncate max-w-full inline-block align-middle", className)}
       data-pending-source={source}
     >
       [PENDING — {source}]

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Maybe, RaceSummary } from "@/lib/data/types";
 import { isPending } from "@/lib/data/types";
-import { TrackOutlineReveal } from "@/components/f1/track-outline-reveal";
+import { circuitImageSlug } from "@/lib/data/image-slugs";
 
 // 24 Official Formula 1 Grand Prix circuit coordinates
 export const F1_CIRCUITS_DATA = [
@@ -44,12 +44,19 @@ export function Globe3DMap({ schedule }: Globe3DMapProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
+  const phiRef = useRef(0);
+  const pointerStartPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
   const [selectedCircuit, setSelectedCircuit] = useState(F1_CIRCUITS_DATA[0]);
+  const [imgError, setImgError] = useState(false);
 
   const nextRaceId = !isPending(schedule) && schedule && schedule.length > 0 ? schedule[0]?.circuit?.id : "monaco";
 
   useEffect(() => {
-    let phi = 0;
+    setImgError(false);
+  }, [selectedCircuit.id]);
+
+  useEffect(() => {
     let width = 0;
     let animId: number;
 
@@ -68,29 +75,30 @@ export function Globe3DMap({ schedule }: Globe3DMapProps) {
       width: width * 2,
       height: width * 2,
       phi: 0,
-      theta: 0.25,
+      theta: 0.2,
       dark: 1,
       diffuse: 1.2,
-      mapSamples: 16000,
-      mapBrightness: 6,
-      baseColor: [0.07, 0.08, 0.09],
-      markerColor: [0.95, 0.95, 0.95],
-      glowColor: [0.35, 0.08, 0.1],
+      mapSamples: 24000,
+      mapBrightness: 3.5,
+      baseColor: [0.05, 0.07, 0.1],
+      markerColor: [0.95, 0.25, 0.3],
+      glowColor: [0.15, 0.2, 0.25],
       markers: F1_CIRCUITS_DATA.map((c) => {
+        const isSelected = c.id === selectedCircuit.id;
         const isNext = c.id === nextRaceId || c.id.includes(nextRaceId || "");
         return {
           location: [c.lat, c.lng],
-          size: isNext ? 0.08 : 0.04,
+          size: isSelected ? 0.09 : isNext ? 0.07 : 0.045,
         };
       }),
     });
 
     const render = () => {
       if (pointerInteracting.current === null) {
-        phi += 0.003;
+        phiRef.current += 0.003;
       }
       globe.update({
-        phi: phi + pointerInteractionMovement.current,
+        phi: phiRef.current + pointerInteractionMovement.current,
         width: width * 2,
         height: width * 2,
       });
@@ -108,7 +116,52 @@ export function Globe3DMap({ schedule }: Globe3DMapProps) {
       globe.destroy();
       window.removeEventListener("resize", onResize);
     };
-  }, [nextRaceId]);
+  }, [nextRaceId, selectedCircuit.id]);
+
+  // Click on globe marker logic: hit test 3D sphere projection to find tapped circuit
+  function handleCanvasClick(e: React.MouseEvent<HTMLCanvasElement>) {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Ignore if drag distance was significant
+    const dx = e.clientX - pointerStartPos.current.x;
+    const dy = e.clientY - pointerStartPos.current.y;
+    if (Math.hypot(dx, dy) > 8) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const radius = rect.width / 2;
+    const currentPhi = phiRef.current + pointerInteractionMovement.current;
+
+    let closestCircuit = null;
+    let minDistance = Infinity;
+
+    for (const c of F1_CIRCUITS_DATA) {
+      const phi_m = (c.lng * Math.PI) / 180;
+      const theta_m = (c.lat * Math.PI) / 180;
+
+      // 3D projection on rotated sphere
+      const x = Math.cos(theta_m) * Math.sin(phi_m + currentPhi);
+      const y = Math.sin(theta_m);
+      const z = Math.cos(theta_m) * Math.cos(phi_m + currentPhi);
+
+      // Only evaluate front hemisphere
+      if (z > 0) {
+        const markerX = radius + radius * x;
+        const markerY = radius - radius * y * 0.9; // slight tilt scaling
+        const dist = Math.hypot(cx - markerX, cy - markerY);
+        if (dist < minDistance && dist < 35) {
+          minDistance = dist;
+          closestCircuit = c;
+        }
+      }
+    }
+
+    if (closestCircuit) {
+      setSelectedCircuit(closestCircuit);
+    }
+  }
 
   return (
     <div className="relative flex flex-col overflow-hidden rounded-xl border border-asphalt/80 bg-graphite/40 backdrop-blur-md lg:flex-row">
@@ -118,7 +171,9 @@ export function Globe3DMap({ schedule }: Globe3DMapProps) {
         <div className="relative aspect-square w-full max-w-[500px]">
           <canvas
             ref={canvasRef}
+            onClick={handleCanvasClick}
             onPointerDown={(e) => {
+              pointerStartPos.current = { x: e.clientX, y: e.clientY };
               pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
               if (canvasRef.current) canvasRef.current.style.cursor = "grabbing";
             }}
@@ -152,9 +207,9 @@ export function Globe3DMap({ schedule }: Globe3DMapProps) {
           <span>3D TELEMETRY GLOBE</span>
         </div>
 
-        {/* Drag Instruction */}
+        {/* Drag / Tap Instruction */}
         <div className="absolute bottom-6 left-6 font-mono text-[11px] uppercase tracking-widest text-brushed-steel">
-          [ DRAG TO ROTATE GLOBE ]
+          [ TAP DOTS OR DRAG GLOBE ]
         </div>
       </div>
 
@@ -179,18 +234,24 @@ export function Globe3DMap({ schedule }: Globe3DMapProps) {
             </span>
           </div>
 
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded border border-asphalt bg-graphite">
-            <Image
-              src={`/images/circuits/${selectedCircuit.id.replace(/_/g, "-")}.jpg`}
-              alt={selectedCircuit.name}
-              fill
-              className="object-cover"
-              sizes="400px"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = "none";
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-carbon via-transparent to-transparent opacity-60" />
+          {/* Image preview box with key prop + error recovery fallback */}
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded border border-asphalt bg-graphite flex items-center justify-center">
+            {!imgError ? (
+              <Image
+                key={selectedCircuit.id}
+                src={`/images/circuits/${circuitImageSlug(selectedCircuit.id)}.jpg`}
+                alt={selectedCircuit.name}
+                fill
+                className="object-cover"
+                sizes="400px"
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <span className="font-display text-2xl font-black tracking-tight text-asphalt text-center px-4">
+                {selectedCircuit.name}
+              </span>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-carbon via-transparent to-transparent opacity-60 pointer-events-none" />
           </div>
 
           <div className="grid grid-cols-2 gap-3 font-mono text-xs">

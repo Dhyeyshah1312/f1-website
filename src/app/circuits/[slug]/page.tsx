@@ -86,13 +86,13 @@ export default async function CircuitDetailPage({
                 profile?.vitals.laps !== undefined ? (
                   <AnimatedNumber value={profile.vitals.laps} />
                 ) : (
-                  <PendingToken source="F1DB" />
+                  "—"
                 )
               }
             />
             <DriverStat
               label="Length"
-              value={profile?.vitals.lengthKm ? `${profile.vitals.lengthKm} km` : <PendingToken source="F1DB" />}
+              value={profile?.vitals.lengthKm ? `${profile.vitals.lengthKm} km` : "—"}
             />
             <DriverStat
               label="Turns"
@@ -100,15 +100,18 @@ export default async function CircuitDetailPage({
                 profile?.vitals.turns !== undefined ? (
                   <AnimatedNumber value={profile.vitals.turns} />
                 ) : (
-                  <PendingToken source="F1DB" />
+                  "—"
                 )
               }
             />
             <DriverStat
               label="Elevation"
-              value={profile?.vitals.elevationM ? `${profile.vitals.elevationM} m` : <PendingToken source="F1DB" />}
+              value={profile?.vitals.elevationM !== undefined ? `${profile.vitals.elevationM} m` : "—"}
             />
-            <DriverStat label="Lap record" value={<PendingToken source="JOLPICA-F1" />} />
+            <DriverStat
+              label="Lap record"
+              value={profile?.vitals.lapRecord ? profile.vitals.lapRecord : "—"}
+            />
           </div>
         </RevealSection>
 

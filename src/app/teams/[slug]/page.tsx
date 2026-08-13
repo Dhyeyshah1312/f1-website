@@ -71,14 +71,27 @@ export default async function TeamProfilePage({
           />
         </ParallaxLayer>
         <div className="relative z-10 flex w-full flex-col gap-2 bg-gradient-to-t from-carbon via-carbon/70 to-transparent p-6 pt-24 md:p-12 md:pt-32">
-          <div
-            className="h-1.5 w-16"
-            style={{ backgroundColor: colors.primary }}
-            aria-hidden
-          />
-          <h1 className="font-display text-6xl font-black tracking-tight text-titanium md:text-8xl">
-            {teamName}
-          </h1>
+          <div className="flex items-end justify-between gap-4">
+            <div className="flex flex-col gap-2">
+              <div
+                className="h-1.5 w-16"
+                style={{ backgroundColor: colors.primary }}
+                aria-hidden
+              />
+              <h1 className="font-display text-6xl font-black tracking-tight text-titanium md:text-8xl">
+                {teamName}
+              </h1>
+            </div>
+            {hasTeamLogo(slug) && (
+              <TeamImage
+                constructorId={slug}
+                variant="logo"
+                hasImage
+                teamName={teamName}
+                className="h-24 w-24 sm:h-36 sm:w-36 md:h-44 md:w-44 shrink-0 object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+              />
+            )}
+          </div>
           <span className="font-mono text-sm uppercase tracking-wide text-brushed-steel">
             {team ? `P${team.position} — ${team.points} PTS` : "—"}
           </span>
@@ -117,7 +130,7 @@ export default async function TeamProfilePage({
           <h2 className="font-display text-2xl font-black tracking-tight text-titanium">
             Identity
           </h2>
-          <TeamIdentityBlock />
+          <TeamIdentityBlock constructorId={slug} />
         </RevealSection>
 
         {/* History */}
@@ -150,19 +163,6 @@ export default async function TeamProfilePage({
             )}
           </div>
         </RevealSection>
-
-        {/* Logo footer mark, if available */}
-        {hasTeamLogo(slug) && (
-          <div className="flex justify-end">
-            <TeamImage
-              constructorId={slug}
-              variant="logo"
-              hasImage
-              teamName={teamName}
-              className="h-24 w-24"
-            />
-          </div>
-        )}
       </div>
     </div>
   );

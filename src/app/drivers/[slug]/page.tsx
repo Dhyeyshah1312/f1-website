@@ -9,6 +9,7 @@ import { hasDriverPortrait, hasDriverPartnerPhoto } from "@/lib/data/portraits";
 import { driverImageSlug } from "@/lib/data/image-slugs";
 import { getDriverPartner } from "@/lib/data/driver-partners";
 import { getDriverInstagramHandle } from "@/lib/data/driver-socials";
+import { getDriverAchievements } from "@/lib/data/driver-achievements";
 import { DriverPortrait } from "@/components/f1/driver-portrait";
 import { ParallaxLayer } from "@/components/f1/parallax-layer";
 import { DriverPartnerPhoto } from "@/components/f1/driver-partner-photo";
@@ -217,14 +218,14 @@ export default async function DriverProfilePage({
           <h2 className="font-display text-2xl font-black tracking-tight text-titanium">
             Achievements
           </h2>
-          <div className="flex flex-col gap-2 font-mono text-sm">
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Notable records —</span>
-              <PendingToken source="F1DB" />
+          <div className="flex flex-col gap-3 font-mono text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-40 font-bold">Notable records —</span>
+              <span className="text-titanium">{getDriverAchievements(slug).notableRecords}</span>
             </div>
-            <div className="flex items-center gap-2 border-t border-asphalt py-2">
-              <span className="text-brushed-steel">Career highlights —</span>
-              <PendingToken source="F1DB" />
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 border-t border-asphalt py-3">
+              <span className="text-brushed-steel shrink-0 w-40 font-bold">Career highlights —</span>
+              <span className="text-titanium">{getDriverAchievements(slug).careerHighlights}</span>
             </div>
           </div>
         </RevealSection>
