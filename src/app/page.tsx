@@ -1,5 +1,5 @@
 import { getConstructorStandings, getDriverStandings, getNextRace, isPending } from "@/lib/data";
-import { hasCircuitImage, hasDriverPortrait, hasTeamLivery } from "@/lib/data/portraits";
+import { hasDriverPortrait, hasTeamLivery } from "@/lib/data/portraits";
 import { HeroIntro } from "@/components/f1/hero-intro";
 import { LiveStatusStrip } from "@/components/f1/live-status-strip";
 import { SectionTeaserPanel } from "@/components/f1/section-teaser-panel";
@@ -16,7 +16,6 @@ export default async function Home() {
 
   const leader = !isPending(driverStandings) && driverStandings.length > 0 ? driverStandings[0] : undefined;
   const leadingTeam = !isPending(constructorStandings) && constructorStandings.length > 0 ? constructorStandings[0] : undefined;
-  const nextCircuit = !isPending(nextRace) ? nextRace.circuit : undefined;
 
   return (
     <div className="flex flex-col">
@@ -84,9 +83,9 @@ export default async function Home() {
           href="/circuits"
           background={
             <CircuitImage
-              circuitId={nextCircuit?.id ?? "albert_park"}
-              hasImage={nextCircuit ? hasCircuitImage(nextCircuit.id) : true}
-              circuitName={nextCircuit?.name ?? "Albert Park Circuit"}
+              circuitId="zandvoort"
+              hasImage={true}
+              circuitName="Circuit Zandvoort"
               className="h-full w-full"
               sizes="100vw"
             />
