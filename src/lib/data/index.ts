@@ -17,6 +17,7 @@ import type {
 } from "@/lib/data/types";
 import * as jolpica from "@/lib/data/sources/jolpica";
 import * as openf1 from "@/lib/data/sources/openf1";
+import { getCuratedDriverBio, getCuratedDriverCareerStats } from "@/lib/data/driver-career-fallback";
 
 /**
  * The ONLY module the app's components should import F1 data from — per
@@ -118,13 +119,15 @@ export async function getRoundDetail(round: number): Promise<RoundDetail> {
 /** A driver's bio (name, DOB, nationality, number) — independent of season. */
 export async function getDriverBio(driverId: string): Promise<Maybe<DriverBio>> {
   const bio = await jolpica.fetchDriverBio(driverId);
-  return bio ?? pending("JOLPICA-F1");
+  const fallback = getCuratedDriverBio(driverId);
+  return bio ?? fallback ?? pending("JOLPICA-F1");
 }
 
 /** Career-wide aggregates and season-by-season timeline for a driver. */
 export async function getDriverCareerStats(driverId: string): Promise<Maybe<DriverCareerStats>> {
   const stats = await jolpica.fetchDriverCareerStats(driverId);
-  return stats ?? pending("JOLPICA-F1");
+  const fallback = getCuratedDriverCareerStats(driverId);
+  return stats ?? fallback ?? pending("JOLPICA-F1");
 }
 
 /** Every round's results for both of a team's cars this season — the race-by-race strip. */

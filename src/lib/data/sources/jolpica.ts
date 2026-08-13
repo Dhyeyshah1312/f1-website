@@ -131,32 +131,17 @@ async function getJson<T>(path: string, revalidateSeconds: number): Promise<T | 
     const res = await fetch(`${BASE_URL}${path}`, {
       next: { revalidate: revalidateSeconds },
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error(`[Jolpica-F1 HTTP ${res.status}] Failed path: ${path} - ${res.statusText}`);
+      return null;
+    }
     return (await res.json()) as T;
-  } catch {
+  } catch (err) {
+    console.error(`[Jolpica-F1 Network Error] Failed path: ${path}`, err);
     return null;
   }
 }
 
-// Jolpica's free tier rate-limits on a sustained basis, not just burst
-// concurrency — empirically confirmed by fetching History's full 1950-present
-// range (~150 requests) under several concurrency/backoff combinations:
-// 20-concurrent/no-retry dropped ~40%; even 2-concurrent with a flat 300ms
-// retry still dropped ~40% (requests that all succeed when run purely
-// sequentially). Exponential backoff up to ~8s, retried specifically on 429
-// (not on other failures, to avoid masking genuine errors), got the same
-// full-range fetch down to a consistent ~85% success rate.
-//
-// Deliberately NOT the default behavior of getJson: this retry budget is
-// only worth paying where partial failure is expected and tolerated (History
-// renders a Pending token per missing year rather than blocking on it) and
-// where the caller already accounts for the extra time (History's
-// staticPageGenerationTimeout bump in next.config.ts). Applying it to every
-// getJson caller compounded badly under real network flakiness — a single
-// slow/rate-limited request during the driver-profile career-stats fan-out
-// (fetchDriverCareerStats, ~13 requests/driver) pushed /drivers/[slug]'s own
-// build past the 180s timeout, a page that never needed retries before and
-// completes in well under a second per request when Jolpica is healthy.
 const RATE_LIMIT_RETRY_ATTEMPTS = 5;
 const RATE_LIMIT_RETRY_BASE_DELAY_MS = 500;
 
@@ -171,15 +156,21 @@ async function getJsonWithRetry<T>(path: string, revalidateSeconds: number): Pro
         next: { revalidate: revalidateSeconds },
       });
       if (res.status === 429) {
+        console.warn(`[Jolpica-F1 Rate Limit 429] Retrying path: ${path} (attempt ${attempt + 1}/${RATE_LIMIT_RETRY_ATTEMPTS})`);
         if (attempt < RATE_LIMIT_RETRY_ATTEMPTS - 1) {
           await delay(RATE_LIMIT_RETRY_BASE_DELAY_MS * 2 ** attempt);
           continue;
         }
+        console.error(`[Jolpica-F1 Rate Limit 429 Exceeded] Path failed after ${RATE_LIMIT_RETRY_ATTEMPTS} attempts: ${path}`);
         return null;
       }
-      if (!res.ok) return null;
+      if (!res.ok) {
+        console.error(`[Jolpica-F1 HTTP ${res.status}] Path: ${path} - ${res.statusText}`);
+        return null;
+      }
       return (await res.json()) as T;
-    } catch {
+    } catch (err) {
+      console.error(`[Jolpica-F1 Network Error] Path: ${path}`, err);
       return null;
     }
   }
@@ -504,31 +495,62 @@ async function fetchDriverPoleCount(driverId: string): Promise<number | null> {
   return data ? Number(data.MRData.total) : null;
 }
 
+interface ErgastAllDriverStandingsResponse {
+  MRData: {
+    StandingsTable: {
+      driverId?: string;
+      StandingsLists?: {
+        season: string;
+        round: string;
+        DriverStandings?: ErgastDriverStandingEntry[];
+      }[];
+    };
+  };
+}
+
 /**
  * Career aggregates for a driver: wins/podiums/poles/championships/points and
- * a season-by-season timeline. Jolpica has no single "career summary"
- * endpoint, so this fans out across several requests and combines them —
- * null only if the season list itself is unavailable; individual per-season
- * lookups that fail are simply dropped rather than failing the whole thing.
+ * a season-by-season timeline. Fetches career standings in a single request
+ * with rate-limit retries to prevent build-time concurrency rate limits.
  */
 export async function fetchDriverCareerStats(driverId: string): Promise<DriverCareerStats | null> {
-  const seasons = await fetchDriverSeasons(driverId);
-  if (!seasons) return null;
-
-  const [seasonRecords, wins, podiumPositions, poles] = await Promise.all([
-    Promise.all(seasons.map((season) => fetchDriverSeasonStanding(driverId, season))),
+  const [allStandingsData, wins, podiumPositions, poles] = await Promise.all([
+    getJsonWithRetry<ErgastAllDriverStandingsResponse>(
+      `/drivers/${driverId}/driverStandings.json?limit=100`,
+      REVALIDATE_CAREER_SECONDS,
+    ),
     fetchDriverResultCountAtPosition(driverId, 1),
     Promise.all(([1, 2, 3] as const).map((pos) => fetchDriverResultCountAtPosition(driverId, pos))),
     fetchDriverPoleCount(driverId),
   ]);
 
-  const timeline = seasonRecords.filter((r): r is DriverSeasonRecord => r !== null);
+  if (!allStandingsData) {
+    console.error(`[Jolpica-F1] Career standings fetch returned null for driver: ${driverId}`);
+    return null;
+  }
+
+  const standingsLists = allStandingsData.MRData.StandingsTable.StandingsLists ?? [];
+  const timeline: DriverSeasonRecord[] = standingsLists
+    .map((list) => {
+      const entry = list.DriverStandings?.[0];
+      if (!entry) return null;
+      return {
+        season: list.season,
+        position: Number(entry.position),
+        points: Number(entry.points),
+        wins: Number(entry.wins),
+        constructorIds: entry.Constructors.map((c) => c.constructorId),
+        constructorNames: entry.Constructors.map((c) => c.name),
+      };
+    })
+    .filter((r): r is DriverSeasonRecord => r !== null);
+
   const podiums = podiumPositions.every((n) => n !== null)
     ? podiumPositions.reduce((sum, n) => sum + (n ?? 0), 0)
     : null;
 
   return {
-    wins: wins ?? 0,
+    wins: wins ?? timeline.reduce((sum, r) => sum + r.wins, 0),
     podiums: podiums ?? 0,
     poles: poles ?? 0,
     championships: timeline.filter((r) => r.position === 1).length,
