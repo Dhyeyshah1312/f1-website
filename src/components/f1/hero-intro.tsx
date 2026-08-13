@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { TelemetryLine } from "@/components/f1/telemetry-line";
 import { F1LogoMark } from "@/components/f1/f1-logo-mark";
@@ -49,13 +48,10 @@ export function HeroIntro() {
     >
       {/* Visual Anchor: Night Race Photography Backdrop */}
       <div className="absolute inset-0 z-0 opacity-45 grayscale transition-opacity duration-700 hover:opacity-60 hover:grayscale-0">
-        <Image
+        <img
           src="/images/heroes/landing-hero.png"
           alt="Formula 1 High Speed Night Action"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
+          className="h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/80 to-carbon/40" />
       </div>
