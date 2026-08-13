@@ -35,19 +35,16 @@ export function PageHero({ index, title, description, imageSrc, background, stat
     >
       {/* Background Hero Image */}
       {imageSrc ? (
-        <div className="absolute inset-0 z-[1] opacity-80 transition-opacity duration-700 hover:opacity-95">
-          <Image
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img
             src={imageSrc}
             alt={title}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
+            className="h-full w-full object-cover object-center opacity-65 transition-opacity duration-700 hover:opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/50 to-transparent" />
         </div>
       ) : background ? (
-        <div className="absolute inset-0 z-[1] opacity-70">
+        <div className="absolute inset-0 z-0 opacity-70">
           {background}
           <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/20" />
         </div>
