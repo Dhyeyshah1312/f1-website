@@ -8,16 +8,20 @@ interface AnimatedNumberProps {
   className?: string;
 }
 
-/** Counts up from 0 to `value` once scrolled into view — wins/podiums/poles/points/etc. */
+/** Counts up to `value` when scrolled into view, defaulting immediately to `value` so numbers are never stuck at 0. */
 export function AnimatedNumber({ value, className }: AnimatedNumberProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const motionValue = useMotionValue(0);
+  const motionValue = useMotionValue(value);
   const springValue = useSpring(motionValue, { damping: 30, stiffness: 90 });
-  const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [display, setDisplay] = useState(0);
+  const isInView = useInView(ref, { once: true });
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
-    if (isInView) motionValue.set(value);
+    setDisplay(value);
+    if (isInView) {
+      motionValue.set(0);
+      motionValue.set(value);
+    }
   }, [isInView, value, motionValue]);
 
   useEffect(() => {

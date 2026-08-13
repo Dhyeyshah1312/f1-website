@@ -545,8 +545,9 @@ export async function fetchDriverCareerStats(driverId: string): Promise<DriverCa
 export async function fetchConstructorSeasonResults(
   constructorId: string,
 ): Promise<ConstructorRoundResult[] | null> {
+  const jolpicaId = constructorId === "sauber" ? "kick_sauber" : constructorId;
   const data = await getJson<ErgastResultsResponse>(
-    `/current/constructors/${constructorId}/results.json?limit=100`,
+    `/current/constructors/${jolpicaId}/results.json?limit=100`,
     REVALIDATE_RESULTS_SECONDS,
   );
   if (!data) return null;

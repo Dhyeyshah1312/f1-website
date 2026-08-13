@@ -35,7 +35,7 @@ export function PageHero({ index, title, description, imageSrc, background, stat
     >
       {/* Background Hero Image */}
       {imageSrc ? (
-        <div className="absolute inset-0 z-0 opacity-80 transition-opacity duration-700 hover:opacity-95">
+        <div className="absolute inset-0 z-[1] opacity-80 transition-opacity duration-700 hover:opacity-95">
           <Image
             src={imageSrc}
             alt={title}
@@ -47,7 +47,7 @@ export function PageHero({ index, title, description, imageSrc, background, stat
           <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/20" />
         </div>
       ) : background ? (
-        <div className="absolute inset-0 z-0 opacity-70">
+        <div className="absolute inset-0 z-[1] opacity-70">
           {background}
           <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/20" />
         </div>
@@ -60,7 +60,7 @@ export function PageHero({ index, title, description, imageSrc, background, stat
       {/* Ambient Grid Backdrop */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.06] bg-[linear-gradient(var(--asphalt)_1px,transparent_1px),linear-gradient(90deg,var(--asphalt)_1px,transparent_1px)] bg-[size:48px_48px]"
+        className="pointer-events-none absolute inset-0 z-[2] opacity-[0.06] bg-[linear-gradient(var(--asphalt)_1px,transparent_1px),linear-gradient(90deg,var(--asphalt)_1px,transparent_1px)] bg-[size:48px_48px]"
       />
 
       {/* Machined Red Accent Line on Top */}
