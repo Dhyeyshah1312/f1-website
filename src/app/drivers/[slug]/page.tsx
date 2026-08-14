@@ -254,16 +254,11 @@ export default async function DriverProfilePage({
                 <span className="text-brushed-steel">Partner —</span>
                 <div className="flex flex-wrap items-baseline gap-2">
                   <SocialLink
-                    handle={slug === "leclerc" ? "hetvii_shahh_" : partner.instagramHandle}
+                    handle={partner.instagramHandle}
                     className="w-fit font-display text-2xl font-black tracking-tight no-underline"
                   >
                     {partner.name}
                   </SocialLink>
-                  {slug === "leclerc" && (
-                    <span className="font-mono text-xs font-bold text-circuit-red-highlight">
-                      A.K.A. Hetvi Shah
-                    </span>
-                  )}
                 </div>
                 <span className="text-brushed-steel">{partner.status}</span>
               </div>
